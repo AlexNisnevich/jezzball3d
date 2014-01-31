@@ -20,6 +20,11 @@
 #include <vector>
 #include <cmath>
 
+#ifdef __linux__
+#include <GL/glut.h>
+#include <GL/glu.h>
+#define PLAYSOUND(snd) ;
+#else
 #ifdef OSX
 #include <GLUT/glut.h>
 #include <OpenGL/glu.h>
@@ -31,11 +36,12 @@
 #include <mmsystem.h>
 #define PLAYSOUND(SND) extern bool sound; if (sound && SND != "bounce.wav") PlaySound(SND, NULL, SND_FILENAME | SND_ASYNC)
 #endif
+#endif
 
 //Include our math library
 #include <algebra3.h>
 //Include our Image Saving library.
-#include "UCB/ImageSaver.h"
+#include "ImageSaver.h"
 
 #include <cstdlib> 
 #include <ctime> 

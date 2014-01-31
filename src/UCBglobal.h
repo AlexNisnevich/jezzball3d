@@ -10,12 +10,17 @@
 
 #define UCBPrint(title, msg) std::cout << "UCB::" << title << " - " << msg << std::endl;
 
+#ifdef __linux__
+#include <GL/glut.h>
+#include <GL/glu.h>
+#else
 #ifdef OSX
 #include <GLUT/glut.h>
 #include <OpenGL/glu.h>
 #else
 #include <GL/glut.h>
 #include <GL/glu.h>
+#endif
 #endif
 
 #endif /* UCBGLOBAL_H_ */

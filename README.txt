@@ -17,3 +17,12 @@ S to toggle Sound
 Z to toggle Zoom Mode
 
 Goal: Partition the playfield so that 80% of the volume is unreachable by the balls to complete each level.
+
+Compilation
+===========
+Linux: Install freeglut (http://www.cs.uregina.ca/Links/class-info/315/WWW/Lab1/GLUT/linux.html), then run:
+
+g++ -DOSX=1 -Iinclude/ -Isrc/UCB/ -o jezzball -v src/* -lGL -lGLU -lglut
+
+Windows: Use Visual Studio.
+

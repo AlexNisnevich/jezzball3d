@@ -1,4 +1,5 @@
 #include "main.h"
+#include <cstring>
 
 using namespace std;
 
