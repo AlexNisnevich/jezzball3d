@@ -18,6 +18,7 @@ struct Mouse {
 	Mouse(int direction[]);
 
 	void changeDirection();
+	void changeDirectionBack();
 };
 
 struct Settings {
@@ -55,9 +56,9 @@ private:
 	Box * playField;
 	Mouse * mouse;
 	Wall * tempWall;
-	
+
 	vector<Wall *> walls;
-	
+
 	void renderWalls();
 
 public:
@@ -77,7 +78,7 @@ public:
 
 	inline vector<Wall *>::iterator getWallsBeginIterator() {return walls.begin();}
     inline vector<Wall *>::iterator getWallsEndIterator() {return walls.end();}
-	
+
 	void setNumBalls(int nb) {numBalls = nb;}
 	void setNumLives(int nl) {numLives = nl;}
 	void setScore(int s) {score = s;}

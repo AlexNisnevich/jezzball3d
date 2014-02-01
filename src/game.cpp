@@ -16,7 +16,13 @@ void Mouse::changeDirection() {
 	}
 }
 
-Game::Game(Settings * settings, int startingBalls, int startingLives, vec3 dimension, int startingDirection[]): 
+void Mouse::changeDirectionBack() {
+	for (int i = 0; i < 5; i++) {
+		changeDirection();
+	}
+}
+
+Game::Game(Settings * settings, int startingBalls, int startingLives, vec3 dimension, int startingDirection[]):
 numBalls(startingBalls), numLives(startingLives), score(0), settings(settings), dimension(dimension), gameOver(false), win(false) {
 	vec3 corner2 = dimension;
 	vec3 corner1 = - dimension;
@@ -37,7 +43,7 @@ numBalls(startingBalls), numLives(startingLives), score(0), settings(settings), 
 Game::~Game() {
 	for (vector<Wall *>::iterator it = getWallsBeginIterator(); it != getWallsEndIterator(); ++it) {
 		Wall * w = *it;
-		delete w;	
+		delete w;
 	}
 	delete playField;
 	delete mouse;
@@ -46,7 +52,7 @@ Game::~Game() {
 void Game::renderWalls() {
 	for (vector<Wall *>::iterator it = getWallsBeginIterator(); it != getWallsEndIterator(); ++it) {
 		Wall * w = *it;
-		w->render();	
+		w->render();
 	}
 }
 
@@ -130,7 +136,7 @@ int Game::getTime() {
 	} else {
 		elapsedTime = (glutGet(GLUT_ELAPSED_TIME) - startTime) / 300;
 	}
-	
+
 	int timeRemaining = 1500 - elapsedTime;
 	if (timeRemaining < 0) {
 		gameOver = true;

@@ -10,10 +10,10 @@ using namespace std;
 
 // viewport
 struct Viewport {
-    Viewport(): mousePos(0.0,0.0) { orientation = identity3D(); };
+	Viewport(): mousePos(0.0,0.0) { orientation = identity3D(); };
 	int w, h; // width and height
 	vec2 mousePos;
-    mat4 orientation;
+	mat4 orientation;
 };
 
 
@@ -45,21 +45,21 @@ Game * game;
 void setupView() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-    glTranslatef(0,0,-5);
-    applyMat4(viewport.orientation);
+	glTranslatef(0,0,-5);
+	applyMat4(viewport.orientation);
 
 	//Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-    //Enable Anti-Aliasing
-    glEnable (GL_LINE_SMOOTH);
-    glEnable(GL_POINT_SMOOTH);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    glLineWidth(1.5);
-    glutPostRedisplay();
+	//Enable Anti-Aliasing
+	glEnable (GL_LINE_SMOOTH);
+	glEnable(GL_POINT_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+	glLineWidth(1.5);
+	glutPostRedisplay();
 }
 
 //-------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ void display() {
 void animate(int value)
 {
 	// Set up the next timer tick (do this first)
-    glutTimerFunc(TIMERMSECS, animate, 0);
+	glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// Measure the elapsed time
 	int currTime = glutGet(GLUT_ELAPSED_TIME);
@@ -149,14 +149,14 @@ void animate(int value)
 /// This gives you the opportunity to set up all the relevant transforms.
 ///
 void reshape(int w, int h) {
-    glViewport(0, 0, w, h);
+	glViewport(0, 0, w, h);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, ((double)w / MAX(h, 1)), 1.0, 100.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, ((double)w / MAX(h, 1)), 1.0, 100.0);
 	//glOrtho(-10,10,-10,10,1,100);
 
-    glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
 
@@ -215,8 +215,8 @@ void myKeyboardFunc (unsigned char key, int x, int y) {
 void myMouseFunc(int button, int state, int x, int y) {
 	if (!paused) {
 		if (button==GLUT_LEFT_BUTTON) {
-			game->finalizeTempWall();	
-		} else if (button==GLUT_MIDDLE_BUTTON) {
+			game->finalizeTempWall();
+		} else if (button==GLUT_MIDDLE_BUTTON || button==4) { // wheel down or click
 			if (state==GLUT_DOWN) {
 				// Change direction
 				game->getMouse()->changeDirection();
@@ -225,7 +225,18 @@ void myMouseFunc(int button, int state, int x, int y) {
 				primary = game->getMouse()->primaryDirection;
 				secondary = game->getMouse()->secondaryDirection;
 				game->getTempWall()->setDirection(primary, secondary);
-				game->getTempWall()->expand();	
+				game->getTempWall()->expand();
+			}
+		} else if (button==3) { // wheel up
+			if (state==GLUT_DOWN) {
+				// Change direction
+				game->getMouse()->changeDirectionBack();
+				// change direction of temp wall
+				int primary, secondary;
+				primary = game->getMouse()->primaryDirection;
+				secondary = game->getMouse()->secondaryDirection;
+				game->getTempWall()->setDirection(primary, secondary);
+				game->getTempWall()->expand();
 			}
 		} else {
 			if (state==GLUT_DOWN) {
@@ -247,7 +258,7 @@ void myActiveMotionFunc(int x, int y) {
 		if (rightMouse) {
 			vec2 diff = (newMouse - viewport.mousePos);
 			double len = diff.length();
-				
+
 			if (!zoom) {
 				// Rotate viewport orientation proportional to mouse motion
 				if (len > .001) {
@@ -267,7 +278,7 @@ void myActiveMotionFunc(int x, int y) {
 				}
 			}
 		}
-		
+
 
 		//Record the mouse location for drawing crosshairs
 		viewport.mousePos = newMouse;
@@ -319,7 +330,7 @@ void myPassiveMotionFunc(int x, int y) {
 
 				rect[primary] = W(rect[primary] + 2*primaryWidth, dim[primary]) - primaryWidth;
 				rect[tertiary] = W(rect[tertiary] + 2*tertiaryWidth, dim[tertiary]) - tertiaryWidth;
-				
+
 				// set tempWall
 				tempWall = new Wall(rect, primary, secondary, TEMP, game);
 				tempWall->expand();
@@ -335,8 +346,8 @@ void myPassiveMotionFunc(int x, int y) {
 //-------------------------------------------------------------------------------
 /// Called to update the screen at 30 fps.
 void frameTimer(int value) {
-    glutPostRedisplay();
-    glutTimerFunc(1000/30, frameTimer, 1);
+	glutPostRedisplay();
+	glutTimerFunc(1000/30, frameTimer, 1);
 }
 
 //-------------------------------------------------------------------------------
@@ -380,11 +391,11 @@ int main(int argc,char** argv) {
 	glutKeyboardFunc(myKeyboardFunc);
 	glutMotionFunc(myActiveMotionFunc);
 	glutPassiveMotionFunc(myPassiveMotionFunc);
-    glutMouseFunc(myMouseFunc);
-    frameTimer(0);
+	glutMouseFunc(myMouseFunc);
+	frameTimer(0);
 
 	// Start the timer
-    glutTimerFunc(TIMERMSECS, animate, 0);
+	glutTimerFunc(TIMERMSECS, animate, 0);
 
 	// Initialize the time variables
 	startTime = glutGet(GLUT_ELAPSED_TIME);
@@ -404,7 +415,7 @@ int main(int argc,char** argv) {
 void applyMat4(mat4 &m) {
 	double glmat[16];
 	int idx = 0;
-	for (int j = 0; j < 4; j++) 
+	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 4; i++)
 			glmat[idx++] = m[i][j];
 	glMultMatrixd(glmat);
