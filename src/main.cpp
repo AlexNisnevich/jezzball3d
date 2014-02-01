@@ -82,7 +82,7 @@ void display() {
 	}
 
 	char livesBuf[100] = {0}, scoreBuf[100] = {0}, timeBuf[100] = {0}, areaBuf[100] = {0}, highScoreBuf[100] = {0};
-	char pauseBuf[100] = {0}, soundBuf[100] = {0}, zoomBuf[100] = {0};
+	char pauseBuf[100] = {0}, soundBuf[100] = {0}, zoomBuf[100] = {0}, inst1Buf[100] = {0}, inst2Buf[100] = {0}, inst3Buf[100] = {0};
 
 	sprintf(livesBuf, "Lives: %d", game->getNumLives());
 	sprintf(scoreBuf, "Score: %d", game->getScore());
@@ -93,6 +93,9 @@ void display() {
 	sprintf(pauseBuf, "[P] Pause %s", ON_OR_OFF(paused));
 	sprintf(soundBuf, "[S] Sound %s", ON_OR_OFF(sound));
 	sprintf(zoomBuf, "[Z] Zoom Mode %s", ON_OR_OFF(zoom));
+	sprintf(inst1Buf, "[Left Mouse] Place a wall");
+	sprintf(inst2Buf, "[Middle Mouse] Scroll through wall orientation");
+	sprintf(inst3Buf, "[Right Mouse] Click and drag to rotate or zoom");
 
 	// Draw text
 
@@ -107,6 +110,9 @@ void display() {
 	printString(GLUT_BITMAP_HELVETICA_12, pauseBuf, 10, 45);
 	printString(GLUT_BITMAP_HELVETICA_12, soundBuf, 10, 30);
 	printString(GLUT_BITMAP_HELVETICA_12, zoomBuf, 10, 15);
+	printString(GLUT_BITMAP_HELVETICA_12, inst1Buf, 490, 65);
+	printString(GLUT_BITMAP_HELVETICA_12, inst2Buf, 490, 50);
+	printString(GLUT_BITMAP_HELVETICA_12, inst3Buf, 490, 35);
 	afterDrawText();
 
 	// Draw game
